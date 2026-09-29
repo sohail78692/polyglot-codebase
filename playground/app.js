@@ -579,24 +579,29 @@ document.addEventListener("DOMContentLoaded", () => {
         appendTerminal(res.compiler_message, "dim");
       }
 
+      // Parse exit status safely (Wandbox API returns res.status as string "0" or number 0)
+      const exitCode = res.status !== undefined ? parseInt(res.status, 10) : (res.compiler_error ? 1 : 0);
+
       if (res.program_output) {
         appendTerminal(res.program_output, "output");
       }
       if (res.program_error) {
-        appendTerminal(res.program_error, "error");
-        highlightRuntimeError(res.program_error);
+        const isWarning = (exitCode === 0 && !res.compiler_error);
+        appendTerminal(res.program_error, isWarning ? "dim" : "error");
+        if (!isWarning) {
+          highlightRuntimeError(res.program_error);
+        }
       }
 
-      const exitStatus = res.status !== undefined ? res.status : (res.compiler_error ? 1 : 0);
-
-      if (exitStatus === 0 && !res.compiler_error) {
+      if (exitCode === 0 && !res.compiler_error) {
         statusBadge.className = "status-badge success";
         statusBadge.textContent = `Exit 0 (${duration}s)`;
-        appendTerminal(`✓ Execution finished with exit code 0 (${duration}s)`, "success");
+        appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
       } else {
+        const displayCode = isNaN(exitCode) ? 1 : exitCode;
         statusBadge.className = "status-badge error";
-        statusBadge.textContent = `Exit ${exitStatus}`;
-        appendTerminal(`✕ Process exited with code ${exitStatus} (${duration}s)`, "error");
+        statusBadge.textContent = `Exit ${displayCode}`;
+        appendTerminal(`✕ Process exited with error code ${displayCode} (${duration}s)`, "error");
       }
 
     } catch (error) {
