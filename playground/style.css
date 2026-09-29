@@ -230,13 +230,19 @@ body {
   transform: translateY(-1px);
 }
 
-/* Quick Access Chips */
+/* Quick Access Chips Card Box */
 .chips-container {
-  padding: 0.65rem 1.75rem;
-  background: rgba(14, 19, 32, 0.65);
-  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 1.15rem;
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-panel);
   overflow: hidden;
-  z-index: 10;
+  position: relative;
+  z-index: 5;
 }
 
 .chips-track {
@@ -244,18 +250,20 @@ body {
   align-items: center;
   gap: 0.5rem;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-  padding-bottom: 0.2rem;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none !important; /* Hide scrollbar for IE/Edge */
+  padding: 0.1rem 0;
+  width: 100%;
 }
 
+/* Hide scrollbar completely across Chrome, Safari, Edge, Opera */
 .chips-track::-webkit-scrollbar {
-  height: 4px;
-}
-
-.chips-track::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 .chip {
@@ -359,11 +367,11 @@ body {
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  padding: 0.75rem 1.5rem 0.5rem;
+  padding: 0.75rem 1.25rem 0.5rem;
   gap: 0.75rem;
-  max-width: 1750px;
-  margin: 0 auto;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   z-index: 1;
 }
@@ -603,6 +611,43 @@ select.dropdown:focus {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.font-resizer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 0.15rem 0.35rem;
+}
+
+.font-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 0.35rem;
+  line-height: 1;
+  transition: all 0.15s ease;
+  border-radius: 3px;
+}
+
+.font-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.font-size-text {
+  font-size: 0.74rem;
+  font-family: var(--font-code);
+  color: var(--text-dim);
+  min-width: 32px;
+  text-align: center;
+  user-select: none;
 }
 
 .status-pill {
@@ -1009,8 +1054,9 @@ select.dropdown:focus {
 }
 
 .footer-content {
-  max-width: 1750px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1040,64 +1086,57 @@ select.dropdown:focus {
    RESPONSIVE DESIGN BREAKPOINTS
    ======================================================== */
 
-/* Large Tablets & Medium Laptops (max-width: 1024px) */
-@media (max-width: 1024px) {
+/* Large Tablets & Medium Laptops (max-width: 1100px) */
+@media (max-width: 1100px) {
   .workspace-grid {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
-  .panel {
-    min-height: 420px;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 0.75rem;
   }
 
   .navbar {
     padding: 0.75rem 1.25rem;
   }
 
-  .app-container {
-    padding: 1rem 1.25rem;
+  .navbar-center {
+    max-width: 320px;
   }
 
-  .navbar-center {
-    max-width: 300px;
+  .app-container {
+    padding: 0.85rem 1.25rem;
   }
 }
 
-/* Tablets & Mobile Devices (max-width: 768px) */
-@media (max-width: 768px) {
+/* Tablets (Portrait) & Small Laptops (max-width: 900px) */
+@media (max-width: 900px) {
   html, body {
     height: auto;
-    min-height: 100%;
+    min-height: 100vh;
     overflow-y: auto;
   }
 
   .app-container {
     overflow: visible;
+    padding: 0.75rem 1rem;
+    height: auto;
+    flex: 1;
   }
 
   .navbar {
-    flex-wrap: wrap;
-    gap: 0.75rem;
     padding: 0.75rem 1rem;
-  }
-
-  .navbar-center {
-    order: 3;
-    max-width: 100%;
-    width: 100%;
   }
 
   .control-bar {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.85rem;
+    gap: 0.75rem;
     padding: 0.85rem;
   }
 
   .control-group {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
   }
 
   .control-item {
@@ -1112,6 +1151,7 @@ select.dropdown:focus {
   .action-group {
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
+    gap: 0.5rem;
     width: 100%;
   }
 
@@ -1119,40 +1159,42 @@ select.dropdown:focus {
     justify-content: center;
   }
 
-  .action-btn.primary {
-    grid-column: span 1;
-  }
-
   .chips-container {
     padding: 0.5rem 1rem;
   }
 
-  .app-container {
-    padding: 0.85rem 1rem;
-  }
-
-  /* Show Mobile View Switcher */
+  /* Show Mobile/Tablet View Switcher */
   .mobile-view-tabs {
     display: flex;
   }
 
-  /* When on mobile, toggle active panel based on selected mobile tab */
+  .workspace-grid {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Active panel switching */
   .workspace-grid.mobile-editor #terminal-panel {
-    display: none;
+    display: none !important;
   }
 
   .workspace-grid.mobile-editor #editor-panel {
-    display: flex;
-    min-height: 520px;
+    display: flex !important;
+    height: 58vh;
+    min-height: 440px;
   }
 
   .workspace-grid.mobile-terminal #editor-panel {
-    display: none;
+    display: none !important;
   }
 
   .workspace-grid.mobile-terminal #terminal-panel {
-    display: flex;
-    min-height: 520px;
+    display: flex !important;
+    height: 58vh;
+    min-height: 440px;
   }
 
   .footer-content {
@@ -1161,10 +1203,59 @@ select.dropdown:focus {
   }
 }
 
-/* Small Phones (max-width: 480px) */
-@media (max-width: 480px) {
-  .brand-badge {
+/* Standard Mobile Phones (max-width: 640px) */
+@media (max-width: 640px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.65rem 0.5rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  .navbar-left {
+    grid-column: 1;
+  }
+
+  .navbar-right {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .navbar-center {
+    grid-column: span 2;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .github-btn-text {
     display: none;
+  }
+
+  .github-btn {
+    padding: 0.45rem 0.65rem;
+    gap: 0.25rem;
+  }
+
+  .search-shortcut {
+    display: none;
+  }
+
+  .brand-text {
+    font-size: 0.98rem;
+  }
+
+  .brand-badge {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .chips-container {
+    padding: 0.45rem 0.75rem;
+  }
+
+  .app-container {
+    padding: 0.65rem 0.75rem;
   }
 
   .action-group {
@@ -1173,25 +1264,187 @@ select.dropdown:focus {
 
   .action-btn.primary {
     grid-column: span 2;
-    order: -1; /* Put Run button at the top on small mobile */
+    order: -1; /* Run Code button at top */
+    padding: 0.7rem;
+    font-size: 0.9rem;
   }
 
   .kbd-hint {
     display: none;
   }
 
+  .CodeMirror {
+    font-size: 0.85rem !important;
+  }
+
+  .workspace-grid.mobile-editor #editor-panel,
+  .workspace-grid.mobile-terminal #terminal-panel {
+    height: 54vh;
+    min-height: 400px;
+  }
+}
+
+/* Ultra-Compact Phones (max-width: 420px) */
+@media (max-width: 420px) {
+  .control-group {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-badge {
+    display: none;
+  }
+
+  .brand-img-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .brand-text {
+    font-size: 0.9rem;
+  }
+
+  .window-controls {
+    display: none;
+  }
+
+  .file-tab {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.76rem;
+  }
+
+  .panel-header {
+    padding: 0.45rem 0.75rem;
+    min-height: 38px;
+  }
+
+  .editor-footer {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
+  }
+
   .footer-right .encoding {
     display: none;
   }
 
-  .line-numbers {
-    width: 36px;
-    padding: 0.85rem 0.35rem;
-    font-size: 0.8rem;
+  .CodeMirror {
+    font-size: 0.8rem !important;
   }
 
-  .code-textarea {
-    padding: 0.85rem;
-    font-size: 0.82rem;
+  .CodeMirror-linenumber {
+    font-size: 0.74rem !important;
+    padding: 0 4px !important;
+  }
+
+  .workspace-grid.mobile-editor #editor-panel,
+  .workspace-grid.mobile-terminal #terminal-panel {
+    height: calc(100vh - 310px);
+    min-height: 360px;
+  }
+}
+
+/* ========================================================
+   LARGE & HIGH-RESOLUTION SCREENS (2K / 4K / Ultrawide)
+   ======================================================== */
+
+@media (min-width: 1440px) {
+  :root {
+    font-size: 16.5px;
+  }
+  .CodeMirror {
+    font-size: 0.96rem !important;
+  }
+  .terminal-body {
+    font-size: 0.94rem;
+  }
+  .chip {
+    font-size: 0.84rem;
+    padding: 0.42rem 0.9rem;
+  }
+  .chip i {
+    font-size: 1.15rem;
+  }
+}
+
+@media (min-width: 1800px) {
+  :root {
+    font-size: 18px;
+  }
+  .CodeMirror {
+    font-size: 1.05rem !important;
+    line-height: 1.68 !important;
+  }
+  .terminal-body {
+    font-size: 1.02rem;
+    line-height: 1.72;
+  }
+  .chip {
+    font-size: 0.9rem;
+    padding: 0.48rem 1rem;
+  }
+  .chip i {
+    font-size: 1.25rem;
+  }
+  .brand-text {
+    font-size: 1.25rem;
+  }
+  .brand-img-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .action-btn {
+    font-size: 0.92rem;
+    padding: 0.65rem 1.15rem;
+  }
+  select.dropdown {
+    font-size: 0.92rem;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    font-size: 20px;
+  }
+  .CodeMirror {
+    font-size: 1.15rem !important;
+    line-height: 1.75 !important;
+  }
+  .terminal-body {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  .chip {
+    font-size: 0.96rem;
+    padding: 0.55rem 1.15rem;
+  }
+  .chip i {
+    font-size: 1.35rem;
+  }
+  .brand-text {
+    font-size: 1.35rem;
+  }
+  .brand-img-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .action-btn {
+    font-size: 0.98rem;
+    padding: 0.72rem 1.3rem;
+  }
+  select.dropdown {
+    font-size: 0.96rem;
+    padding: 0.7rem 2.5rem 0.7rem 1.15rem;
+  }
+}
+
+@media (min-width: 2800px) {
+  :root {
+    font-size: 23px;
+  }
+  .CodeMirror {
+    font-size: 1.25rem !important;
+  }
+  .terminal-body {
+    font-size: 1.2rem;
   }
 }

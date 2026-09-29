@@ -497,8 +497,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Switch to console tab
     setActiveTab("console");
 
-    // On mobile screens, automatically show terminal view so output is visible
-    if (window.innerWidth <= 768) {
+    // On mobile/tablet screens, automatically show terminal view so output is visible
+    if (window.innerWidth <= 900) {
       setMobileView("terminal");
     }
 
@@ -634,6 +634,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btnShowEditor.addEventListener("click", () => setMobileView("editor"));
     btnShowTerminal.addEventListener("click", () => setMobileView("terminal"));
+
+    // Ensure CodeMirror resizes gracefully on orientation change or window resize
+    window.addEventListener("resize", () => {
+      if (cmEditor) cmEditor.refresh();
+    });
   }
 
   function setMobileView(viewName) {
@@ -681,6 +686,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Enable smooth mouse-wheel horizontal scrolling without scrollbar
+  quickChips.addEventListener("wheel", (e) => {
+    if (e.deltaY !== 0) {
+      e.preventDefault();
+      quickChips.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
   // Search Input Event
   langSearch.addEventListener("input", (e) => {
     const val = e.target.value;
@@ -726,6 +739,33 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => statusBadge.textContent = "Ready", 1200);
     });
   });
+
+  // 13. Dynamic Font Size Controller
+  const fontDecBtn = document.getElementById("font-decrease-btn");
+  const fontIncBtn = document.getElementById("font-increase-btn");
+  const fontLabel = document.getElementById("font-size-label");
+  let currentFontSize = parseInt(localStorage.getItem("polyglot_font_size") || "15", 10);
+
+  function applyFontSize(size) {
+    currentFontSize = Math.min(26, Math.max(11, size));
+    localStorage.setItem("polyglot_font_size", currentFontSize);
+    if (fontLabel) fontLabel.textContent = `${currentFontSize}px`;
+
+    const cmElement = document.querySelector(".CodeMirror");
+    if (cmElement) {
+      cmElement.style.setProperty("font-size", `${currentFontSize}px`, "important");
+      if (cmEditor) cmEditor.refresh();
+    }
+    if (terminalBody) {
+      terminalBody.style.fontSize = `${currentFontSize - 1}px`;
+    }
+  }
+
+  if (fontDecBtn && fontIncBtn) {
+    fontDecBtn.addEventListener("click", () => applyFontSize(currentFontSize - 1));
+    fontIncBtn.addEventListener("click", () => applyFontSize(currentFontSize + 1));
+    setTimeout(() => applyFontSize(currentFontSize), 100);
+  }
 
   // Initialize
   init();

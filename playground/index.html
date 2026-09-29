@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.css">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=12">
   <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
@@ -45,61 +45,61 @@
         <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
         </svg>
-        <span>GitHub Star</span>
+        <span class="github-btn-text">GitHub Star</span>
       </a>
     </div>
   </header>
 
-  <!-- Quick Access Language Chips -->
-  <section class="chips-container" aria-label="Quick Select Languages">
-    <div class="chips-track" id="quick-chips">
-      <button class="chip active" data-lang="01-python"><i class="devicon-python-plain colored"></i><span>Python</span></button>
-      <button class="chip" data-lang="02-javascript"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></button>
-      <button class="chip" data-lang="03-typescript"><i class="devicon-typescript-plain colored"></i><span>TypeScript</span></button>
-      <button class="chip" data-lang="04-c"><i class="devicon-c-original colored"></i><span>C</span></button>
-      <button class="chip" data-lang="05-cpp"><i class="devicon-cplusplus-plain colored"></i><span>C++</span></button>
-      <button class="chip" data-lang="06-csharp"><i class="devicon-csharp-plain colored"></i><span>C#</span></button>
-      <button class="chip" data-lang="07-java"><i class="devicon-java-plain colored"></i><span>Java</span></button>
-      <button class="chip" data-lang="08-go"><i class="devicon-go-plain colored"></i><span>Go</span></button>
-      <button class="chip" data-lang="09-rust"><i class="devicon-rust-original colored"></i><span>Rust</span></button>
-      <button class="chip" data-lang="10-kotlin"><i class="devicon-kotlin-plain colored"></i><span>Kotlin</span></button>
-      <button class="chip" data-lang="11-swift"><i class="devicon-swift-plain colored"></i><span>Swift</span></button>
-      <button class="chip" data-lang="12-php"><i class="devicon-php-plain colored"></i><span>PHP</span></button>
-      <button class="chip" data-lang="13-ruby"><i class="devicon-ruby-plain colored"></i><span>Ruby</span></button>
-      <button class="chip" data-lang="15-julia"><i class="devicon-julia-plain colored"></i><span>Julia</span></button>
-      <button class="chip" data-lang="17-zig"><i class="devicon-zig-original colored"></i><span>Zig</span></button>
-      <button class="chip" data-lang="23-haskell"><i class="devicon-haskell-plain colored"></i><span>Haskell</span></button>
-      <button class="chip" data-lang="24-scala"><i class="devicon-scala-plain colored"></i><span>Scala</span></button>
-      <button class="chip" data-lang="25-clojure"><i class="devicon-clojure-plain colored"></i><span>Clojure</span></button>
-      <button class="chip" data-lang="26-elixir"><i class="devicon-elixir-plain colored"></i><span>Elixir</span></button>
-      <button class="chip" data-lang="35-lua"><i class="devicon-lua-plain colored"></i><span>Lua</span></button>
-      <button class="chip" data-lang="39-dart"><i class="devicon-dart-plain colored"></i><span>Dart</span></button>
-      <button class="chip" data-lang="44-sql"><i class="devicon-postgresql-plain colored"></i><span>SQL</span></button>
-      <button class="chip" data-lang="32-bash"><i class="devicon-bash-plain colored"></i><span>Bash</span></button>
-    </div>
-  </section>
-
-  <!-- Mobile View Switcher Tabs (Visible on mobile/tablet) -->
-  <div class="mobile-view-tabs" id="mobile-view-tabs">
-    <button class="mobile-tab-btn active" id="btn-show-editor">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="16 18 22 12 16 6"></polyline>
-        <polyline points="8 6 2 12 8 18"></polyline>
-      </svg>
-      <span>Code Editor</span>
-    </button>
-    <button class="mobile-tab-btn" id="btn-show-terminal">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="4 17 10 11 4 5"></polyline>
-        <line x1="12" y1="19" x2="20" y2="19"></line>
-      </svg>
-      <span>Terminal Output</span>
-      <span class="mobile-unread-badge" id="mobile-unread-badge"></span>
-    </button>
-  </div>
-
   <!-- Main Container -->
   <main class="app-container">
+
+    <!-- Quick Access Language Chips Card Box -->
+    <section class="chips-container" aria-label="Quick Select Languages">
+      <div class="chips-track" id="quick-chips">
+        <button class="chip active" data-lang="01-python"><i class="devicon-python-plain colored"></i><span>Python</span></button>
+        <button class="chip" data-lang="02-javascript"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></button>
+        <button class="chip" data-lang="03-typescript"><i class="devicon-typescript-plain colored"></i><span>TypeScript</span></button>
+        <button class="chip" data-lang="04-c"><i class="devicon-c-original colored"></i><span>C</span></button>
+        <button class="chip" data-lang="05-cpp"><i class="devicon-cplusplus-plain colored"></i><span>C++</span></button>
+        <button class="chip" data-lang="06-csharp"><i class="devicon-csharp-plain colored"></i><span>C#</span></button>
+        <button class="chip" data-lang="07-java"><i class="devicon-java-plain colored"></i><span>Java</span></button>
+        <button class="chip" data-lang="08-go"><i class="devicon-go-plain colored"></i><span>Go</span></button>
+        <button class="chip" data-lang="09-rust"><i class="devicon-rust-original colored"></i><span>Rust</span></button>
+        <button class="chip" data-lang="10-kotlin"><i class="devicon-kotlin-plain colored"></i><span>Kotlin</span></button>
+        <button class="chip" data-lang="11-swift"><i class="devicon-swift-plain colored"></i><span>Swift</span></button>
+        <button class="chip" data-lang="12-php"><i class="devicon-php-plain colored"></i><span>PHP</span></button>
+        <button class="chip" data-lang="13-ruby"><i class="devicon-ruby-plain colored"></i><span>Ruby</span></button>
+        <button class="chip" data-lang="15-julia"><i class="devicon-julia-plain colored"></i><span>Julia</span></button>
+        <button class="chip" data-lang="17-zig"><i class="devicon-zig-original colored"></i><span>Zig</span></button>
+        <button class="chip" data-lang="23-haskell"><i class="devicon-haskell-plain colored"></i><span>Haskell</span></button>
+        <button class="chip" data-lang="24-scala"><i class="devicon-scala-plain colored"></i><span>Scala</span></button>
+        <button class="chip" data-lang="25-clojure"><i class="devicon-clojure-plain colored"></i><span>Clojure</span></button>
+        <button class="chip" data-lang="26-elixir"><i class="devicon-elixir-plain colored"></i><span>Elixir</span></button>
+        <button class="chip" data-lang="35-lua"><i class="devicon-lua-plain colored"></i><span>Lua</span></button>
+        <button class="chip" data-lang="39-dart"><i class="devicon-dart-plain colored"></i><span>Dart</span></button>
+        <button class="chip" data-lang="44-sql"><i class="devicon-postgresql-plain colored"></i><span>SQL</span></button>
+        <button class="chip" data-lang="32-bash"><i class="devicon-bash-plain colored"></i><span>Bash</span></button>
+      </div>
+    </section>
+
+    <!-- Mobile View Switcher Tabs (Visible on mobile/tablet) -->
+    <div class="mobile-view-tabs" id="mobile-view-tabs">
+      <button class="mobile-tab-btn active" id="btn-show-editor">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
+        </svg>
+        <span>Code Editor</span>
+      </button>
+      <button class="mobile-tab-btn" id="btn-show-terminal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+        <span>Terminal Output</span>
+        <span class="mobile-unread-badge" id="mobile-unread-badge"></span>
+      </button>
+    </div>
 
     <!-- Top Toolbar Controls -->
     <section class="control-bar" aria-label="Editor Controls">
@@ -169,6 +169,11 @@
             <span class="file-name" id="file-name">main.py</span>
           </div>
           <div class="panel-actions">
+            <div class="font-resizer" title="Adjust Editor Font Size">
+              <button id="font-decrease-btn" class="font-btn" aria-label="Decrease Font Size" title="Smaller font">−</button>
+              <span id="font-size-label" class="font-size-text">15px</span>
+              <button id="font-increase-btn" class="font-btn" aria-label="Increase Font Size" title="Larger font">+</button>
+            </div>
             <span class="status-pill" id="editor-mode-badge">Editable</span>
           </div>
         </div>
@@ -276,6 +281,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.js"></script>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>
