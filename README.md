@@ -2,15 +2,15 @@
 
 # 🌍 The Polyglot Codebase: 50 Languages Reference
 
+[![Playground](https://img.shields.io/badge/Playground-Live%20In--Browser-ff69b4.svg)](https://sohail78692.github.io/polyglot-codebase/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Languages](https://img.shields.io/badge/Languages-50%20Covered-success.svg)](languages/)
 [![Programs](https://img.shields.io/badge/Programs-100%20Implemented-blueviolet.svg)](languages/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](docs/CONTRIBUTING.md)
-[![Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](#)
 
-*A clean, idiomatic, and reference-grade educational repository demonstrating **"Hello, World!"** and **Basic Arithmetic Operations (+, -, \*, /, %)** across 50 programming languages, complete with step-by-step annotations, compiler setup, and progressive roadmap milestones.*
+*A clean, idiomatic, and reference-grade educational repository demonstrating **"Hello, World!"** and **Basic Arithmetic Operations (+, -, \*, /, %)** across 50 programming languages, complete with step-by-step annotations, compiler setup, and a live web playground.*
 
-[Explore Languages](#-complete-language-matrix-50-languages) • [Repository Structure](#-repository-structure) • [Contributing](docs/CONTRIBUTING.md) • [Roadmap](docs/ROADMAP.md)
+[🎮 Live Web Playground](https://sohail78692.github.io/polyglot-codebase/) • [Explore Languages](#-complete-language-matrix-50-languages) • [Repository Structure](#-repository-structure) • [Contributing](docs/CONTRIBUTING.md) • [Roadmap](docs/ROADMAP.md)
 
 </div>
 
@@ -109,6 +109,19 @@ Learning how different languages express fundamental constructs helps developers
 ├── LICENSE                        # MIT License
 └── README.md                      # Main visual index & matrix
 ```
+
+---
+
+## 🎮 Interactive Web Playground
+
+Want to test or run code across languages without installing anything locally?
+
+👉 **[Launch the Live Polyglot Playground](https://sohail78692.github.io/polyglot-codebase/)**
+
+- **In-Browser Execution**: Type or paste any code and click `▶ Run Code` (or press `Ctrl+Enter`).
+- **Templates**: Instant one-click loading of *Hello World* and *Basic Operations*.
+- **Language Profiles**: View creator, paradigm, compiler targets, and terminal installation commands.
+- **Console Terminal**: Live stdout, stderr, compile status, and execution duration metrics.
 
 ---
 

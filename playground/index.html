@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Polyglot Code Playground | Run 50 Programming Languages Live</title>
+  <meta name="description" content="Modern interactive multi-language code playground. Run, test, and compare code across 50 programming languages directly in your browser.">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.css">
+  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="icon" type="image/png" href="icon.png">
+</head>
+<body>
+
+  <!-- Ambient Glow Blobs -->
+  <div class="ambient-glow glow-top-left" aria-hidden="true"></div>
+  <div class="ambient-glow glow-bottom-right" aria-hidden="true"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="#" class="brand">
+        <img src="icon.png" alt="Polyglot Playground Logo" class="brand-img-icon">
+        <div class="brand-info">
+          <span class="brand-text">Polyglot Playground</span>
+          <span class="brand-badge">50 Languages</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="navbar-center">
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="lang-search" placeholder="Quick search language... (e.g. rust, python, cpp)" autocomplete="off">
+        <span class="search-shortcut">/</span>
+      </div>
+    </div>
+
+    <div class="navbar-right">
+      <a href="https://github.com/sohail78692/polyglot-codebase" target="_blank" rel="noopener noreferrer" class="github-btn" id="github-link">
+        <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>GitHub Star</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Quick Access Language Chips -->
+  <section class="chips-container" aria-label="Quick Select Languages">
+    <div class="chips-track" id="quick-chips">
+      <button class="chip active" data-lang="01-python"><i class="devicon-python-plain colored"></i><span>Python</span></button>
+      <button class="chip" data-lang="02-javascript"><i class="devicon-javascript-plain colored"></i><span>JavaScript</span></button>
+      <button class="chip" data-lang="03-typescript"><i class="devicon-typescript-plain colored"></i><span>TypeScript</span></button>
+      <button class="chip" data-lang="04-c"><i class="devicon-c-original colored"></i><span>C</span></button>
+      <button class="chip" data-lang="05-cpp"><i class="devicon-cplusplus-plain colored"></i><span>C++</span></button>
+      <button class="chip" data-lang="06-csharp"><i class="devicon-csharp-plain colored"></i><span>C#</span></button>
+      <button class="chip" data-lang="07-java"><i class="devicon-java-plain colored"></i><span>Java</span></button>
+      <button class="chip" data-lang="08-go"><i class="devicon-go-plain colored"></i><span>Go</span></button>
+      <button class="chip" data-lang="09-rust"><i class="devicon-rust-original colored"></i><span>Rust</span></button>
+      <button class="chip" data-lang="10-kotlin"><i class="devicon-kotlin-plain colored"></i><span>Kotlin</span></button>
+      <button class="chip" data-lang="11-swift"><i class="devicon-swift-plain colored"></i><span>Swift</span></button>
+      <button class="chip" data-lang="12-php"><i class="devicon-php-plain colored"></i><span>PHP</span></button>
+      <button class="chip" data-lang="13-ruby"><i class="devicon-ruby-plain colored"></i><span>Ruby</span></button>
+      <button class="chip" data-lang="15-julia"><i class="devicon-julia-plain colored"></i><span>Julia</span></button>
+      <button class="chip" data-lang="17-zig"><i class="devicon-zig-original colored"></i><span>Zig</span></button>
+      <button class="chip" data-lang="23-haskell"><i class="devicon-haskell-plain colored"></i><span>Haskell</span></button>
+      <button class="chip" data-lang="24-scala"><i class="devicon-scala-plain colored"></i><span>Scala</span></button>
+      <button class="chip" data-lang="25-clojure"><i class="devicon-clojure-plain colored"></i><span>Clojure</span></button>
+      <button class="chip" data-lang="26-elixir"><i class="devicon-elixir-plain colored"></i><span>Elixir</span></button>
+      <button class="chip" data-lang="35-lua"><i class="devicon-lua-plain colored"></i><span>Lua</span></button>
+      <button class="chip" data-lang="39-dart"><i class="devicon-dart-plain colored"></i><span>Dart</span></button>
+      <button class="chip" data-lang="44-sql"><i class="devicon-postgresql-plain colored"></i><span>SQL</span></button>
+      <button class="chip" data-lang="32-bash"><i class="devicon-bash-plain colored"></i><span>Bash</span></button>
+    </div>
+  </section>
+
+  <!-- Mobile View Switcher Tabs (Visible on mobile/tablet) -->
+  <div class="mobile-view-tabs" id="mobile-view-tabs">
+    <button class="mobile-tab-btn active" id="btn-show-editor">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="16 18 22 12 16 6"></polyline>
+        <polyline points="8 6 2 12 8 18"></polyline>
+      </svg>
+      <span>Code Editor</span>
+    </button>
+    <button class="mobile-tab-btn" id="btn-show-terminal">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="4 17 10 11 4 5"></polyline>
+        <line x1="12" y1="19" x2="20" y2="19"></line>
+      </svg>
+      <span>Terminal Output</span>
+      <span class="mobile-unread-badge" id="mobile-unread-badge"></span>
+    </button>
+  </div>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Top Toolbar Controls -->
+    <section class="control-bar" aria-label="Editor Controls">
+      <div class="control-group">
+        <div class="control-item">
+          <label for="language-select">Language</label>
+          <div class="select-wrapper">
+            <select id="language-select" class="dropdown" aria-label="Select Programming Language">
+              <!-- Dynamically populated via app.js -->
+            </select>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <label for="template-select">Template</label>
+          <div class="select-wrapper">
+            <select id="template-select" class="dropdown" aria-label="Select Code Template">
+              <option value="hw">1. Hello World</option>
+              <option value="ops">2. Basic Operations (+, -, *, /, %)</option>
+              <option value="custom">3. Blank / Custom Code</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-group">
+        <button id="copy-btn" class="action-btn secondary" title="Copy code to clipboard">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span>Copy</span>
+        </button>
+
+        <button id="clear-btn" class="action-btn secondary" title="Clear console output">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Clear</span>
+        </button>
+
+        <button id="run-btn" class="action-btn primary" title="Run code (Ctrl + Enter)">
+          <span class="spinner"></span>
+          <svg class="run-icon" width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Run Code</span>
+          <span class="kbd-hint">Ctrl+↵</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Workspace: Code Editor & Console Output -->
+    <section class="workspace-grid" id="workspace">
+
+      <!-- Code Editor Panel -->
+      <article class="panel" id="editor-panel">
+        <div class="panel-header">
+          <div class="window-controls">
+            <span class="window-dot dot-red"></span>
+            <span class="window-dot dot-yellow"></span>
+            <span class="window-dot dot-green"></span>
+          </div>
+          <div class="file-tab">
+            <i class="devicon-python-plain colored file-icon" id="file-icon"></i>
+            <span class="file-name" id="file-name">main.py</span>
+          </div>
+          <div class="panel-actions">
+            <span class="status-pill" id="editor-mode-badge">Editable</span>
+          </div>
+        </div>
+
+        <div class="editor-wrapper" id="editor-wrapper">
+          <textarea id="code-editor" class="code-textarea" spellcheck="false" placeholder="Write or edit code here..."></textarea>
+        </div>
+
+        <div class="editor-footer">
+          <div class="footer-left">
+            <span class="footer-item" id="status-lang">Python</span>
+            <span class="footer-divider">•</span>
+            <span class="footer-item" id="status-compiler">cpython-3.12.7</span>
+          </div>
+          <div class="footer-right">
+            <span class="footer-item" id="status-lines">Lines: 1</span>
+            <span class="footer-item" id="status-chars">Chars: 0</span>
+            <span class="footer-item encoding">UTF-8</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Terminal / Console Panel -->
+      <article class="panel" id="terminal-panel">
+        <div class="panel-header">
+          <div class="console-tabs">
+            <button class="console-tab active" id="tab-console">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="4 17 10 11 4 5"></polyline>
+                <line x1="12" y1="19" x2="20" y2="19"></line>
+              </svg>
+              <span>Terminal</span>
+            </button>
+            <button class="console-tab" id="tab-info">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              <span>Language Guide</span>
+            </button>
+          </div>
+          <div class="panel-actions">
+            <span class="status-badge" id="status-badge">Ready</span>
+            <button class="icon-btn" id="copy-terminal-btn" title="Copy output">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Output View -->
+        <div class="terminal-body" id="terminal-body" role="log" aria-live="polite">
+          <div class="terminal-line dim">[Ready] Select a language and click 'Run Code' or press Ctrl+Enter to execute.</div>
+        </div>
+
+        <!-- Language Info & Setup View -->
+        <div class="info-container" id="info-container">
+          <!-- Dynamically populated via app.js -->
+        </div>
+
+        <div class="terminal-footer">
+          <span class="terminal-footer-text">Sandboxed Execution Environment</span>
+          <span class="terminal-footer-badge" id="terminal-clock">00:00:00</span>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>The Polyglot Codebase • Open Source Educational Project Covering 50 Programming Languages</p>
+      <div class="footer-links">
+        <a href="https://github.com/sohail78692/polyglot-codebase" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+        <span>•</span>
+        <a href="https://github.com/sohail78692/polyglot-codebase/blob/main/docs/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a>
+        <span>•</span>
+        <a href="https://github.com/sohail78692/polyglot-codebase/blob/main/docs/ROADMAP.md" target="_blank" rel="noopener noreferrer">Roadmap</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="languages-data.js?v=4"></script>
+  <!-- CodeMirror Editor Core, Modes & Addons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/rust/rust.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/go/go.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/ruby/ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/shell/shell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/sql/sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/swift/swift.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/php/php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/lua/lua.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/r/r.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/haskell/haskell.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clojure/clojure.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/lint/lint.min.js"></script>
+  <script src="app.js?v=8"></script>
+</body>
+</html>
