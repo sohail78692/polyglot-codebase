@@ -190,13 +190,14 @@ python scripts/verify_all.py
 
 ## 🛣️ Progressive Roadmap
 This repository is planned as a progressive multi-part series:
-1. **Part 1 (Current ✅)**: Hello World across 50 languages.
-2. **Part 2 (Current ✅)**: Basic Operations (`+`, `-`, `*`, `/`, `%`) across 50 languages.
-3. **Part 3**: Control Flow (Conditionals: If/Else, Match/Switch; Loops: For, While).
-4. **Part 4**: Functions, Closures, and Error Handling.
-5. **Part 5**: Idiomatic Algorithms (FizzBuzz, Fibonacci, Sorting).
+1. **Milestone 1 (Completed ✅)**: Hello World across 50 languages with compilation & runtime documentation.
+2. **Milestone 2 (Completed ✅)**: Basic Arithmetic Operations (`+`, `-`, `*`, `/`, `%`) and primitives across 50 languages.
+3. **Platform Milestone (Completed & Live ✅)**: [Interactive Web Playground](https://sohail78692.github.io/polyglot-codebase/) with VS Code Dark+ styling, real-time syntax linting, Devicon brand icons, and fluid responsive scaling.
+4. **Milestone 3 (Up Next 🚀)**: Control Flow & Logic (Conditionals: `if/else`, pattern matching; Loops: `for`, `while`, comprehensions).
+5. **Milestone 4 (Planned)**: Functions, Lambdas, Closures, and Error Handling.
+6. **Milestone 5 (Planned)**: Idiomatic Classic Algorithms (FizzBuzz, Fibonacci, Binary Search, Quicksort).
 
-See [docs/ROADMAP.md](docs/ROADMAP.md) for full details.
+See [docs/ROADMAP.md](docs/ROADMAP.md) for full milestone breakdown and specifications.
 
 ---
 
