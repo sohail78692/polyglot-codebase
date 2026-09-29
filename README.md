@@ -114,14 +114,60 @@ Learning how different languages express fundamental constructs helps developers
 
 ## 🎮 Interactive Web Playground
 
-Want to test or run code across languages without installing anything locally?
+Want to explore, edit, or run code across all 50 programming languages right in your browser without installing compilers or runtimes locally?
 
 👉 **[Launch the Live Polyglot Playground](https://sohail78692.github.io/polyglot-codebase/)**
 
-- **In-Browser Execution**: Type or paste any code and click `▶ Run Code` (or press `Ctrl+Enter`).
-- **Templates**: Instant one-click loading of *Hello World* and *Basic Operations*.
-- **Language Profiles**: View creator, paradigm, compiler targets, and terminal installation commands.
-- **Console Terminal**: Live stdout, stderr, compile status, and execution duration metrics.
+[![Playground Preview](https://img.shields.io/badge/Live%20Demo-sohail78692.github.io%2Fpolyglot--codebase-blueviolet?style=for-the-badge&logo=googlechrome&logoColor=white)](https://sohail78692.github.io/polyglot-codebase/)
+
+### ✨ Playground Features
+
+- **50 Languages Quick-Selector**: Instant language switching via an enclosed, smoothly scrollable bar featuring authentic **Devicon** developer brand icons.
+- **VS Code Dark+ Code Editor**: Full-featured CodeMirror editor styled to match the official VS Code Dark+ theme with language-specific syntax highlighting modes.
+- **Real-Time Syntax Linting**: Live red wavy squiggly error underlines (`~~~`) that flag invalid syntax (such as missing colons, unclosed string literals, or unmatched brackets) as you type.
+- **Instant Client-Side Execution**: Run Python, JavaScript, and simulated runtime engines directly in the browser with live stdout/stderr capture and microsecond execution timers.
+- **Pre-Loaded Idiomatic Templates**: One-click toggling between **Hello World** and **Basic Operations (`+`, `-`, `*`, `/`, `%`)** for all 50 languages.
+- **Language Deep-Dive Guide**: Side-by-side reference tab detailing language paradigm, typing discipline, year created, primary designer, and official CLI compiler/interpreter run commands.
+- **Interactive Font Resizer & Fluid Typography**: On-screen `[−] 15px [+]` controls to customize font sizing with automatic `localStorage` persistence, optimized for mobile phones up to 4K ultrawide monitors.
+- **Full-Screen Responsive Layout**: Edge-to-edge layout that adapts seamlessly across smartphones, tablets, laptops, and ultra-high-resolution displays.
+
+---
+
+### 📖 How to Use the Playground
+
+1. **Pick a Language**:
+   - Click any language icon in the top card box (e.g., Python, Rust, Go, TypeScript, C++), or choose from the search dropdown.
+2. **Choose a Program Template**:
+   - Select either `Hello World` or `Basic Operations (+, -, *, /, %)` from the template dropdown to instantly populate idiomatic sample code.
+3. **Edit Code**:
+   - Type or modify the code directly in the editor. Syntax errors will automatically display red wavy underlines in real time.
+4. **Execute Code**:
+   - Click the **▶ Run Code** button in the control bar, or use the keyboard shortcut:
+     - Windows / Linux: <kbd>Ctrl</kbd> + <kbd>Enter</kbd>
+     - macOS: <kbd>Cmd</kbd> + <kbd>Enter</kbd>
+5. **Inspect Terminal Output & Language Info**:
+   - Check the **Output Console** tab to view standard output, return codes, and elapsed execution time.
+   - Switch to the **Language Guide** tab to review official compilation and execution commands for local setups.
+6. **Adjust View & Copy**:
+   - Use the `[−]` and `[+]` buttons in the editor header to adjust text size.
+   - Click **Copy Code** to grab snippets directly to your clipboard.
+
+---
+
+### 💻 Running the Playground Locally
+
+You can also run the web playground offline on your local machine using Python's built-in HTTP server:
+
+```bash
+# Clone the repository
+git clone https://github.com/sohail78692/polyglot-codebase.git
+cd polyglot-codebase
+
+# Start local web server
+python -m http.server 8000 --directory playground
+```
+
+Then open [http://localhost:8000](http://localhost:8000) in your web browser.
 
 ---
 
