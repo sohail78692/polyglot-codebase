@@ -835,28 +835,142 @@ select.dropdown:focus {
   z-index: 1000 !important;
 }
 
-/* Custom Scrollbars */
-.code-textarea::-webkit-scrollbar,
+/* ========================================================
+   SLEEK MODERN SCROLLBAR SYSTEM (VS CODE DARK+ AESTHETICS)
+   ======================================================== */
+
+/* Universal thin dark scrollbars for Firefox & modern standards */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+/* Universal WebKit scrollbars (Chrome, Edge, Safari, Brave) */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.65);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Explicit CodeMirror native scrollbar eradication */
+.CodeMirror-scroll,
+.CodeMirror-vscrollbar,
+.CodeMirror-hscrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar,
+.CodeMirror-vscrollbar::-webkit-scrollbar,
+.CodeMirror-hscrollbar::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background: transparent !important;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-track,
+.CodeMirror-vscrollbar::-webkit-scrollbar-track,
+.CodeMirror-hscrollbar::-webkit-scrollbar-track {
+  background: rgba(10, 14, 24, 0.6) !important;
+  border-radius: 9999px !important;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-thumb,
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb,
+.CodeMirror-hscrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 9999px !important;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar-thumb:hover,
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover,
+.CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary) !important;
+}
+
+.CodeMirror-scrollbar-filler,
+.CodeMirror-gutter-filler {
+  background: transparent !important;
+}
+
+/* CodeMirror SimpleScrollbars & Overlay Theme (VS Code floating pill) */
+.CodeMirror-overlayscroll-vertical,
+.CodeMirror-overlayscroll-horizontal,
+.CodeMirror-simplescroll-vertical,
+.CodeMirror-simplescroll-horizontal {
+  background: transparent !important;
+  z-index: 20 !important;
+}
+
+.CodeMirror-overlayscroll-vertical {
+  width: 7px !important;
+  right: 2px !important;
+}
+
+.CodeMirror-overlayscroll-horizontal {
+  height: 7px !important;
+  bottom: 2px !important;
+}
+
+.CodeMirror-overlayscroll-vertical div,
+.CodeMirror-overlayscroll-horizontal div,
+.CodeMirror-simplescroll-vertical div,
+.CodeMirror-simplescroll-horizontal div {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.CodeMirror-overlayscroll-vertical:hover div,
+.CodeMirror-overlayscroll-horizontal:hover div,
+.CodeMirror-simplescroll-vertical:hover div,
+.CodeMirror-simplescroll-horizontal:hover div {
+  background: rgba(99, 102, 241, 0.75) !important;
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Terminal Body and Info Container Scrollbars */
+.terminal-body,
+.info-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
 .terminal-body::-webkit-scrollbar,
 .info-container::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
-.code-textarea::-webkit-scrollbar-track,
 .terminal-body::-webkit-scrollbar-track,
 .info-container::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.15);
 }
 
-.code-textarea::-webkit-scrollbar-thumb,
 .terminal-body::-webkit-scrollbar-thumb,
 .info-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
 }
 
-.code-textarea::-webkit-scrollbar-thumb:hover,
 .terminal-body::-webkit-scrollbar-thumb:hover,
 .info-container::-webkit-scrollbar-thumb:hover {
   background: var(--primary);

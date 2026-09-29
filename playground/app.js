@@ -266,7 +266,8 @@ document.addEventListener("DOMContentLoaded", () => {
         matchBrackets: true,
         styleActiveLine: true,
         gutters: ["CodeMirror-lint-markers", "CodeMirror-linenumbers"],
-        lint: true
+        lint: true,
+        scrollbarStyle: "overlay"
       });
 
       cmEditor.on("change", () => {
