@@ -419,7 +419,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const chars = text.length;
 
     statusLang.textContent = currentLang.name;
-    statusCompiler.textContent = currentLang.compiler || 'Standard Runtime';
+    let engineLabel = "Standard Runtime";
+    if (currentLang.id === "02-javascript") engineLabel = "Browser V8";
+    else if (currentLang.engine === "judge0") engineLabel = "Judge0 Sandbox";
+    else if (currentLang.engine === "wandbox") engineLabel = currentLang.compiler || "Wandbox Sandbox";
+    else if (currentLang.engine === "local") engineLabel = "Local CLI";
+
+    statusCompiler.textContent = engineLabel;
     statusLines.textContent = `Lines: ${lines}`;
     statusChars.textContent = `Chars: ${chars}`;
   }
@@ -428,6 +434,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderInfoTab() {
     if (!currentLang) return;
     const deviconClass = DEVICON_MAP[currentLang.id] || "devicon-devicon-plain colored";
+    let engineDesc = "Local CLI (Terminal)";
+    if (currentLang.id === "02-javascript") engineDesc = "In-Browser V8 Engine";
+    else if (currentLang.engine === "judge0") engineDesc = `Judge0 Cloud Sandbox (ID ${currentLang.judge0_id})`;
+    else if (currentLang.engine === "wandbox") engineDesc = `Wandbox Cloud (${currentLang.compiler})`;
+
     infoContainer.innerHTML = `
       <div class="info-card">
         <h4 style="display:flex; align-items:center; gap:0.6rem;">
@@ -439,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <tr><td>Initial Year</td><td>${currentLang.year}</td></tr>
           <tr><td>Created By</td><td>${currentLang.creator}</td></tr>
           <tr><td>Category</td><td>${currentLang.category}</td></tr>
-          <tr><td>Compiler Target</td><td><code>${currentLang.compiler || 'Native'}</code></td></tr>
+          <tr><td>Execution Engine</td><td><code>${engineDesc}</code></td></tr>
         </table>
       </div>
 
@@ -511,8 +522,8 @@ document.addEventListener("DOMContentLoaded", () => {
     appendTerminal(`\n$ [${new Date().toLocaleTimeString()}] Running ${currentLang.name}...`, "info");
     const startTime = performance.now();
 
-    // Fast-path: In-browser execution for JavaScript
-    if (currentLang.id === "02-javascript") {
+    // Fast-path 1: In-browser execution for JavaScript
+    if (currentLang.id === "02-javascript" || currentLang.engine === "browser") {
       try {
         let captured = [];
         const customConsole = {
@@ -547,61 +558,160 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Sandbox execution via Wandbox API
-    try {
-      const compiler = currentLang.compiler || "gcc-head";
-      const payload = {
-        code: code,
-        compiler: compiler
-      };
+    // Fast-path 2: Local execution guidance for languages requiring local environment
+    if (currentLang.engine === "local" || (!currentLang.compiler && !currentLang.judge0_id)) {
+      appendTerminal(`[Local Script] ${currentLang.name} requires local environment installation and is not hosted in the cloud sandbox.`, "info");
+      appendTerminal(`\nRun directly in your terminal:\n$ ${currentLang.run_cmd}`, "output");
+      appendTerminal(`\nInstallation / setup guide: ${currentLang.install}`, "dim");
+      statusBadge.className = "status-badge success";
+      statusBadge.textContent = `Local Command Ready`;
+      runBtn.classList.remove("loading");
+      return;
+    }
 
-      const response = await fetch("https://wandbox.org/api/compile.json", {
+    // Cloud Sandbox execution helper for Judge0 CE
+    async function executeJudge0(judge0Id) {
+      const payload = {
+        source_code: code,
+        language_id: judge0Id
+      };
+      const response = await fetch("https://ce.judge0.com/submissions?base64_encoded=false&wait=true", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-
-      const duration = ((performance.now() - startTime) / 1000).toFixed(3);
-
       if (!response.ok) {
-        throw new Error(`Execution service responded with HTTP ${response.status}`);
+        throw new Error(`Judge0 API responded with HTTP ${response.status}`);
       }
+      return await response.json();
+    }
 
-      const res = await response.json();
-
-      if (res.compiler_error) {
-        appendTerminal(res.compiler_error, "error");
-        highlightRuntimeError(res.compiler_error);
+    // Cloud Sandbox execution helper for Wandbox
+    async function executeWandbox(compilerName) {
+      const payload = {
+        code: code,
+        compiler: compilerName
+      };
+      const response = await fetch("https://wandbox.org/api/compile.json", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) {
+        throw new Error(`Wandbox API responded with HTTP ${response.status}`);
       }
-      if (res.compiler_message && !res.compiler_error) {
-        appendTerminal(res.compiler_message, "dim");
-      }
+      return await response.json();
+    }
 
-      // Parse exit status safely (Wandbox API returns res.status as string "0" or number 0)
-      const exitCode = res.status !== undefined ? parseInt(res.status, 10) : (res.compiler_error ? 1 : 0);
+    // Execution dispatcher with automatic fallback
+    try {
+      let executed = false;
 
-      if (res.program_output) {
-        appendTerminal(res.program_output, "output");
-      }
-      if (res.program_error) {
-        const isWarning = (exitCode === 0 && !res.compiler_error);
-        appendTerminal(res.program_error, isWarning ? "dim" : "error");
-        if (!isWarning) {
-          highlightRuntimeError(res.program_error);
+      // 1. If Judge0 is designated primary engine
+      if (currentLang.engine === "judge0" && currentLang.judge0_id) {
+        try {
+          const res = await executeJudge0(currentLang.judge0_id);
+          const duration = ((performance.now() - startTime) / 1000).toFixed(3);
+          
+          if (res.compile_output) {
+            appendTerminal(res.compile_output, "error");
+            highlightRuntimeError(res.compile_output);
+          }
+          if (res.stdout) {
+            appendTerminal(res.stdout, "output");
+          }
+          if (res.stderr) {
+            appendTerminal(res.stderr, "error");
+            highlightRuntimeError(res.stderr);
+          }
+
+          const isSuccess = res.status && res.status.id === 3;
+          const exitCode = isSuccess ? 0 : (res.status ? res.status.id : 1);
+
+          if (isSuccess && !res.compile_output) {
+            statusBadge.className = "status-badge success";
+            statusBadge.textContent = `Exit 0 (${duration}s)`;
+            appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
+          } else {
+            statusBadge.className = "status-badge error";
+            statusBadge.textContent = `Exit ${exitCode}`;
+            const statusDesc = res.status ? res.status.description : "Failed";
+            appendTerminal(`✕ Process exited: ${statusDesc} (${duration}s)`, "error");
+          }
+          executed = true;
+        } catch (j0Err) {
+          console.warn("Judge0 execution failed, attempting fallback if available:", j0Err);
+          if (!currentLang.compiler) throw j0Err;
         }
       }
 
-      if (exitCode === 0 && !res.compiler_error) {
-        statusBadge.className = "status-badge success";
-        statusBadge.textContent = `Exit 0 (${duration}s)`;
-        appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
-      } else {
-        const displayCode = isNaN(exitCode) ? 1 : exitCode;
-        statusBadge.className = "status-badge error";
-        statusBadge.textContent = `Exit ${displayCode}`;
-        appendTerminal(`✕ Process exited with error code ${displayCode} (${duration}s)`, "error");
+      // 2. Try Wandbox (if designated primary or as fallback)
+      if (!executed && currentLang.compiler) {
+        try {
+          let compilerName = currentLang.compiler;
+          if (compilerName === "cpython-head" || (currentLang.id === "01-python" && (!compilerName || compilerName === "cpython-head"))) {
+            compilerName = "cpython-3.12.7";
+          }
+          const res = await executeWandbox(compilerName);
+          const duration = ((performance.now() - startTime) / 1000).toFixed(3);
+
+          if (res.compiler_error) {
+            appendTerminal(res.compiler_error, "error");
+            highlightRuntimeError(res.compiler_error);
+          }
+          if (res.compiler_message && !res.compiler_error) {
+            appendTerminal(res.compiler_message, "dim");
+          }
+
+          const exitCode = res.status !== undefined ? parseInt(res.status, 10) : (res.compiler_error ? 1 : 0);
+
+          if (res.program_output) {
+            appendTerminal(res.program_output, "output");
+          }
+          if (res.program_error) {
+            const isWarning = (exitCode === 0 && !res.compiler_error);
+            appendTerminal(res.program_error, isWarning ? "dim" : "error");
+            if (!isWarning) {
+              highlightRuntimeError(res.program_error);
+            }
+          }
+
+          if (exitCode === 0 && !res.compiler_error) {
+            statusBadge.className = "status-badge success";
+            statusBadge.textContent = `Exit 0 (${duration}s)`;
+            appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
+          } else {
+            const displayCode = isNaN(exitCode) ? 1 : exitCode;
+            statusBadge.className = "status-badge error";
+            statusBadge.textContent = `Exit ${displayCode}`;
+            appendTerminal(`✕ Process exited with error code ${displayCode} (${duration}s)`, "error");
+          }
+          executed = true;
+        } catch (wbErr) {
+          console.warn("Wandbox execution failed:", wbErr);
+          // If fallback to Judge0 is possible
+          if (currentLang.judge0_id) {
+            appendTerminal(`[Info] Falling back to Judge0 sandbox...`, "dim");
+            const res = await executeJudge0(currentLang.judge0_id);
+            const duration = ((performance.now() - startTime) / 1000).toFixed(3);
+            if (res.compile_output) appendTerminal(res.compile_output, "error");
+            if (res.stdout) appendTerminal(res.stdout, "output");
+            if (res.stderr) appendTerminal(res.stderr, "error");
+            const isSuccess = res.status && res.status.id === 3;
+            if (isSuccess && !res.compile_output) {
+              statusBadge.className = "status-badge success";
+              statusBadge.textContent = `Exit 0 (${duration}s)`;
+              appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
+            } else {
+              statusBadge.className = "status-badge error";
+              statusBadge.textContent = `Exit ${res.status ? res.status.id : 1}`;
+              appendTerminal(`✕ Process exited (${duration}s)`, "error");
+            }
+            executed = true;
+          } else {
+            throw wbErr;
+          }
+        }
       }
 
     } catch (error) {
