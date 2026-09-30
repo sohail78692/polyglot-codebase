@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function init() {
     if (!languages || languages.length === 0) {
       try {
-        const resp = await fetch("languages-data.json");
+        const resp = await fetch("languages-data.json?v=" + Date.now());
         languages = await resp.json();
         window.LANGUAGES_DATA = languages;
       } catch (err) {
@@ -588,9 +588,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Cloud Sandbox execution helper for Wandbox
     async function executeWandbox(compilerName) {
+      let targetCompiler = compilerName;
+      if (currentLang.id === "01-python" || !targetCompiler || targetCompiler.includes("cpython-head")) {
+        targetCompiler = "cpython-3.12.7";
+      }
+
       const payload = {
         code: code,
-        compiler: compilerName
+        compiler: targetCompiler
       };
       const response = await fetch("https://wandbox.org/api/compile.json", {
         method: "POST",
