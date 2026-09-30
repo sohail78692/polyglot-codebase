@@ -2,7 +2,7 @@
 // Program: Control Flow in Java
 // ==========================================
 
-public class ControlFlow {
+class ControlFlow {
     public static void main(String[] args) {
         // 1. Conditionals
         System.out.println("Conditionals:");

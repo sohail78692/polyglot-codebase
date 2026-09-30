@@ -2,8 +2,10 @@
 % Program: Control Flow in Erlang
 % ==========================================
 
--module(control_flow).
--export([main/1]).
+-module(prog).
+-export([main/0, main/1]).
+
+main() -> main([]).
 
 countdown(0) ->
     io:format("Blastoff!~n");

@@ -19,14 +19,23 @@ void main() {
   }
 
   print("\nPattern Matching / Switch:");
-  // 2. Dart 3.0 Switch Expression
+  // 2. Switch Statement
   String grade = "B";
-  String message = switch (grade) {
-    "A" => "Grade A: Excellent!",
-    "B" => "Grade B: Good Job!",
-    "C" => "Grade C: Fair",
-    _   => "Keep Trying!"
-  };
+  String message;
+  switch (grade) {
+    case "A":
+      message = "Grade A: Excellent!";
+      break;
+    case "B":
+      message = "Grade B: Good Job!";
+      break;
+    case "C":
+      message = "Grade C: Fair";
+      break;
+    default:
+      message = "Keep Trying!";
+      break;
+  }
   print(message);
 
   // 3. For Loop

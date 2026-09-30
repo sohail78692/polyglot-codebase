@@ -13,5 +13,5 @@ void main() {
     writefln("Multiplication (a * b)  : %d", a * b);
     writefln("Integer Division (a / b): %d", a / b);
     writefln("Float Division (double) : %f", cast(double)a / b);
-    writefln("Modulo (a % b)          : %d", a % b);
+    writefln("Modulo (a %% b)          : %d", a % b);
 }

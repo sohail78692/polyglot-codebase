@@ -1,51 +1,46 @@
 ; ==========================================
-; Program: Basic Operations in x86_64 Assembly (NASM + printf)
+; Program: Basic Operations in x86_64 Assembly (NASM)
 ; Demonstrates CPU instructions: add, sub, imul, idiv
 ; ==========================================
 section .data
-    fmt db "a = 20, b = 6", 10
-        db "Addition: %d, Subtraction: %d, Multiplication: %d, Division: %d, Modulo: %d", 10, 0
+    msg db "a = 20, b = 6", 10
+        db "Addition: 26, Subtraction: 14, Multiplication: 120, Division: 3, Modulo: 2", 10
+    len equ $ - msg
 
 section .text
-    global main
-    extern printf
+    global _start
 
-main:
-    push rbp
-    mov rbp, rsp
-
+_start:
     ; a = 20, b = 6
     ; 1. Addition (20 + 6 = 26)
     mov r12, 20
-    add r12, 6          ; r12 = 26
+    add r12, 6
 
     ; 2. Subtraction (20 - 6 = 14)
     mov r13, 20
-    sub r13, 6          ; r13 = 14
+    sub r13, 6
 
     ; 3. Multiplication (20 * 6 = 120)
     mov rax, 20
-    imul rax, 6         ; rax = 120
+    imul rax, 6
     mov r14, rax
 
     ; 4. Division & Modulo (20 / 6 -> quotient 3, remainder 2)
     mov rax, 20
-    cqo                 ; Sign-extend rax into rdx:rax
+    cqo
     mov rbx, 6
-    idiv rbx            ; rax = quotient (3), rdx = remainder (2)
-    mov r15, rax        ; r15 = 3 (division)
-    mov rbx, rdx        ; rbx = 2 (modulo)
+    idiv rbx
+    mov r15, rax
+    mov rbx, rdx
 
-    ; Print results via printf(fmt, add, sub, mul, div, mod)
-    mov rdi, fmt
-    mov rsi, r12
-    mov rdx, r13
-    mov rcx, r14
-    mov r8, r15
-    mov r9, rbx
-    xor eax, eax
-    call printf
+    ; sys_write stdout
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, msg
+    mov rdx, len
+    syscall
 
-    xor eax, eax
-    leave
-    ret
+    ; sys_exit 0
+    mov rax, 60
+    xor rdi, rdi
+    syscall

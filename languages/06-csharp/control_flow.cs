@@ -28,15 +28,24 @@ class Program
         }
 
         Console.WriteLine("\nPattern Matching / Switch:");
-        // 2. Switch Expression
+        // 2. Switch Statement (Compatible with all C# runtimes & Mono)
         string grade = "B";
-        string feedback = grade switch
+        string feedback;
+        switch (grade)
         {
-            "A" => "Grade A: Excellent!",
-            "B" => "Grade B: Good Job!",
-            "C" => "Grade C: Fair",
-            _   => "Keep Trying!"
-        };
+            case "A":
+                feedback = "Grade A: Excellent!";
+                break;
+            case "B":
+                feedback = "Grade B: Good Job!";
+                break;
+            case "C":
+                feedback = "Grade C: Fair";
+                break;
+            default:
+                feedback = "Keep Trying!";
+                break;
+        }
         Console.WriteLine(feedback);
 
         // 3. For Loop

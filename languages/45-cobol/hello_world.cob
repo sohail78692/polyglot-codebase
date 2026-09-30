@@ -1,9 +1,7 @@
-      * ==========================================
-      * Program: Hello World in COBOL
-      * ==========================================
-       IDENTIFICATION DIVISION.
-       PROGRAM-ID. HELLO-WORLD.
+>>SOURCE FORMAT FREE
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO-WORLD.
 
-       PROCEDURE DIVISION.
-           DISPLAY 'Hello, World!'.
-           STOP RUN.
+PROCEDURE DIVISION.
+    DISPLAY 'Hello, World!'.
+    STOP RUN.

@@ -1,8 +1,11 @@
 % ==========================================
 % Program: Basic Operations in Erlang (+, -, *, div, rem)
 % ==========================================
--module(basic_operations).
--export([start/0]).
+-module(prog).
+-export([main/0, main/1, start/0]).
+
+main() -> start().
+main(_) -> start().
 
 start() ->
     A = 20,

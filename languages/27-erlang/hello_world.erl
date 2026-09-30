@@ -1,8 +1,11 @@
 % ==========================================
 % Program: Hello World in Erlang
 % ==========================================
--module(hello_world).
--export([start/0]).
+-module(prog).
+-export([main/0, main/1, start/0]).
+
+main() -> start().
+main(_) -> start().
 
 start() ->
     io:format("Hello, World!~n").

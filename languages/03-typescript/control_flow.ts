@@ -20,7 +20,7 @@ function main(): void {
 
     console.log("\nPattern Matching / Switch:");
     type Grade = "A" | "B" | "C" | "F";
-    const grade: Grade = "B";
+    let grade: Grade = "B";
     switch (grade) {
         case "A":
             console.log("Grade A: Excellent!");

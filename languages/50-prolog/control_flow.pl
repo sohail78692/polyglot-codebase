@@ -2,6 +2,8 @@
 % Program: Control Flow in Prolog
 % ==========================================
 
+:- initialization(main).
+
 % 1. Conditional classification clauses
 classify_num(N) :-
     N > 0,

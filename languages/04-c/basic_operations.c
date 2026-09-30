@@ -15,7 +15,7 @@ int main(void) {
     printf("Multiplication (a * b)  : %d\n", a * b);
     printf("Integer Division (a / b): %d\n", a / b);             // Integer division truncates
     printf("Float Division (float)  : %f\n", (float)a / (float)b); // Type casting for float
-    printf("Modulo (a % b)          : %d\n", a % b);             // Remainder operator
+    printf("Modulo (a %% b)          : %d\n", a % b);             // Remainder operator
 
     return 0;
 }

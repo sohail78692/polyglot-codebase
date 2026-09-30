@@ -1,7 +1,7 @@
 // ==========================================
 // Program: Basic Operations in Java (+, -, *, /, %)
 // ==========================================
-public class BasicOperations {
+class BasicOperations {
     public static void main(String[] args) {
         int a = 20;
         int b = 6;

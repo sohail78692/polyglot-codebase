@@ -2,7 +2,7 @@
 // Program: Control Flow in Scala
 // ==========================================
 
-object ControlFlow {
+object Main {
   def main(args: Array[String]): Unit = {
     // 1. Conditionals
     println("Conditionals:")

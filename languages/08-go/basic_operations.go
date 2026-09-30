@@ -15,5 +15,5 @@ func main() {
     fmt.Printf("Multiplication (a * b)  : %d\n", a * b)
     fmt.Printf("Integer Division (a / b): %d\n", a / b)
     fmt.Printf("Float Division (float64): %f\n", float64(a) / float64(b))
-    fmt.Printf("Modulo (a % b)          : %d\n", a % b)
+    fmt.Printf("Modulo (a %% b)          : %d\n", a % b)
 }

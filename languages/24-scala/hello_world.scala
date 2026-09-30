@@ -1,5 +1,8 @@
 // ==========================================
-// Program: Hello World in Scala (Scala 3)
+// Program: Hello World in Scala
 // ==========================================
-@main def run(): Unit =
-  println("Hello, World!")
+object Main {
+  def main(args: Array[String]): Unit = {
+    println("Hello, World!")
+  }
+}

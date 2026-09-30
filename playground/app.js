@@ -390,8 +390,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let codeToLoad = "";
     if (templateType === "hw") {
       codeToLoad = currentLang.hw_code;
-    } else if (templateType === "ops") {
-      codeToLoad = currentLang.ops_code;
+    } else if (templateType === "ops" || templateType === "bo") {
+      codeToLoad = currentLang.ops_code || currentLang.bo_code;
     } else if (templateType === "cf") {
       codeToLoad = currentLang.cf_code || `// Control flow for ${currentLang.name}\n`;
     } else {
@@ -603,6 +603,10 @@ document.addEventListener("DOMContentLoaded", () => {
       let targetCompiler = compilerName;
       if (currentLang.id === "01-python" || !targetCompiler || targetCompiler.includes("cpython-head")) {
         targetCompiler = "cpython-3.12.7";
+      } else if (currentLang.id === "03-typescript" || (targetCompiler && targetCompiler.includes("typescript"))) {
+        targetCompiler = "typescript-5.6.2";
+      } else if (currentLang.id === "15-julia") {
+        targetCompiler = "julia-1.10.5";
       }
 
       const payload = {
@@ -675,28 +679,31 @@ document.addEventListener("DOMContentLoaded", () => {
           const res = await executeWandbox(compilerName);
           const duration = ((performance.now() - startTime) / 1000).toFixed(3);
 
+          const exitCode = res.status !== undefined ? parseInt(res.status, 10) : (res.compiler_error ? 1 : 0);
+
           if (res.compiler_error) {
-            appendTerminal(res.compiler_error, "error");
-            highlightRuntimeError(res.compiler_error);
+            const isWarn = (exitCode === 0);
+            appendTerminal(res.compiler_error, isWarn ? "dim" : "error");
+            if (!isWarn) {
+              highlightRuntimeError(res.compiler_error);
+            }
           }
           if (res.compiler_message && !res.compiler_error) {
             appendTerminal(res.compiler_message, "dim");
           }
 
-          const exitCode = res.status !== undefined ? parseInt(res.status, 10) : (res.compiler_error ? 1 : 0);
-
           if (res.program_output) {
             appendTerminal(res.program_output, "output");
           }
           if (res.program_error) {
-            const isWarning = (exitCode === 0 && !res.compiler_error);
+            const isWarning = (exitCode === 0);
             appendTerminal(res.program_error, isWarning ? "dim" : "error");
             if (!isWarning) {
               highlightRuntimeError(res.program_error);
             }
           }
 
-          if (exitCode === 0 && !res.compiler_error) {
+          if (exitCode === 0) {
             statusBadge.className = "status-badge success";
             statusBadge.textContent = `Exit 0 (${duration}s)`;
             appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
@@ -946,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 2. Test BO
       let boOk = false;
       try {
-        selectLanguage(lang.id, "bo");
+        selectLanguage(lang.id, "ops");
         const boVal = cmEditor ? cmEditor.getValue() : codeEditor.value;
         boOk = Boolean(boVal && boVal.trim().length > 0);
         if (boOk) { langPassed++; totalTested++; }
