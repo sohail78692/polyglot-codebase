@@ -76,3 +76,79 @@ Modulo (a % b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: vlang.io
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.v`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```v
+// ==========================================
+// Program: Control Flow in V (Vlang)
+// ==========================================
+
+fn main() {
+    // 1. Conditionals
+    println("Conditionals:")
+    num := 15
+    if num > 0 {
+        if num % 2 == 0 {
+            println("${num} is Positive and Even")
+        } else {
+            println("${num} is Positive and Odd")
+        }
+    } else if num < 0 {
+        println("${num} is Negative")
+    } else {
+        println("Number is Zero")
+    }
+
+    println("\nPattern Matching / Switch:")
+    // 2. Match Expression
+    grade := "B"
+    msg := match grade {
+        "A" { "Grade A: Excellent!" }
+        "B" { "Grade B: Good Job!" }
+        "C" { "Grade C: Fair" }
+        else { "Keep Trying!" }
+    }
+    println(msg)
+
+    // 3. For Loop
+    println("\nFor Loop (1 to 5):")
+    for i in 1 .. 6 {
+        print("${i}${if i == 5 { "\n" } else { " " }}")
+    }
+
+    // 4. While Loop (using 'for condition')
+    println("\nWhile Loop (Countdown):")
+    mut count := 3
+    for count > 0 {
+        print("${count} ")
+        count--
+    }
+    println("Blastoff!")
+}
+```
+
+### Explanation
+Demonstrates V language fast compilation, `match` expressions, range `for` loops, and condition-only `for` (while).
+
+### Run Control Flow
+```bash
+v run control_flow.v
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

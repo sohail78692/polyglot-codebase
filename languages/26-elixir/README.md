@@ -72,3 +72,83 @@ Remainder (rem)         : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: elixir-lang.org
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.exs`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```exs
+# ==========================================
+# Program: Control Flow in Elixir
+# ==========================================
+
+defmodule ControlFlow do
+  def countdown(0), do: IO.puts("Blastoff!")
+  def countdown(n) do
+    IO.write("#{n} ")
+    countdown(n - 1)
+  end
+
+  def main do
+    # 1. Conditionals (cond)
+    IO.puts("Conditionals:")
+    num = 15
+    cond do
+      num > 0 ->
+        if rem(num, 2) == 0 do
+          IO.puts("#{num} is Positive and Even")
+        else
+          IO.puts("#{num} is Positive and Odd")
+        end
+      num < 0 -> IO.puts("#{num} is Negative")
+      true    -> IO.puts("Number is Zero")
+    end
+
+    IO.puts("\nPattern Matching / Switch:")
+    # 2. Case Pattern Matching
+    grade = "B"
+    msg = case grade do
+      "A" -> "Grade A: Excellent!"
+      "B" -> "Grade B: Good Job!"
+      "C" -> "Grade C: Fair"
+      _   -> "Keep Trying!"
+    end
+    IO.puts(msg)
+
+    # 3. For Comprehension
+    IO.puts("\nFor Loop (1 to 5):")
+    Enum.each(1..5, fn i ->
+      IO.write("#{i}#{if i == 5, do: "\n", else: " "}")
+    end)
+
+    # 4. While Loop via recursion
+    IO.puts("\nWhile Loop (Countdown):")
+    countdown(3)
+  end
+end
+
+ControlFlow.main()
+```
+
+### Explanation
+Demonstrates Elixir's `if/else`, `cond`, `case` pattern matching, `for` comprehensions, and recursion for loops.
+
+### Run Control Flow
+```bash
+elixir control_flow.exs
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

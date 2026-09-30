@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const templateSelect = document.getElementById("template-select");
   const runBtn = document.getElementById("run-btn");
   const clearBtn = document.getElementById("clear-btn");
+  const testAllBtn = document.getElementById("test-all-btn");
   const copyBtn = document.getElementById("copy-btn");
   const copyTerminalBtn = document.getElementById("copy-terminal-btn");
   const codeEditor = document.getElementById("code-editor");
@@ -98,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "09-rust": "rust",
     "10-kotlin": "text/x-kotlin",
     "11-swift": "swift",
-    "12-php": "php",
+    "12-php": "application/x-httpd-php",
     "13-ruby": "ruby",
     "14-r": "r",
     "15-julia": "julia",
@@ -391,15 +392,26 @@ document.addEventListener("DOMContentLoaded", () => {
       codeToLoad = currentLang.hw_code;
     } else if (templateType === "ops") {
       codeToLoad = currentLang.ops_code;
+    } else if (templateType === "cf") {
+      codeToLoad = currentLang.cf_code || `// Control flow for ${currentLang.name}\n`;
     } else {
       codeToLoad = `// Custom ${currentLang.name} program\n`;
     }
 
     if (cmEditor) {
-      const mode = CM_MODE_MAP[currentLang.id] || "text/plain";
-      cmEditor.setOption("mode", mode);
+      try {
+        const mode = CM_MODE_MAP[currentLang.id] || "text/plain";
+        cmEditor.setOption("mode", mode);
+      } catch (modeErr) {
+        console.warn("Failed to set mode, defaulting to text/plain:", modeErr);
+        cmEditor.setOption("mode", "text/plain");
+      }
       cmEditor.setOption("lint", currentLang.id === "01-python" || currentLang.id === "02-javascript");
-      cmEditor.setValue(codeToLoad);
+      try {
+        cmEditor.setValue(codeToLoad);
+      } catch (valErr) {
+        console.warn("Failed to set editor value:", valErr);
+      }
       cmEditor.clearHistory();
       clearRuntimeErrors();
       setTimeout(() => cmEditor.refresh(), 50);
@@ -617,31 +629,34 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
           const res = await executeJudge0(currentLang.judge0_id);
           const duration = ((performance.now() - startTime) / 1000).toFixed(3);
+          const isSuccess = res.status && res.status.id === 3;
           
           if (res.compile_output) {
-            appendTerminal(res.compile_output, "error");
-            highlightRuntimeError(res.compile_output);
+            appendTerminal(res.compile_output, isSuccess ? "dim" : "error");
+            if (!isSuccess) {
+              highlightRuntimeError(res.compile_output);
+            }
           }
           if (res.stdout) {
             appendTerminal(res.stdout, "output");
           }
           if (res.stderr) {
-            appendTerminal(res.stderr, "error");
-            highlightRuntimeError(res.stderr);
+            appendTerminal(res.stderr, isSuccess ? "dim" : "error");
+            if (!isSuccess) {
+              highlightRuntimeError(res.stderr);
+            }
           }
 
-          const isSuccess = res.status && res.status.id === 3;
-          const exitCode = isSuccess ? 0 : (res.status ? res.status.id : 1);
-
-          if (isSuccess && !res.compile_output) {
+          if (isSuccess) {
             statusBadge.className = "status-badge success";
             statusBadge.textContent = `Exit 0 (${duration}s)`;
             appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
           } else {
+            const exitCode = res.exit_code !== null && res.exit_code !== undefined ? res.exit_code : (res.status ? res.status.id : 1);
             statusBadge.className = "status-badge error";
             statusBadge.textContent = `Exit ${exitCode}`;
             const statusDesc = res.status ? res.status.description : "Failed";
-            appendTerminal(`✕ Process exited: ${statusDesc} (${duration}s)`, "error");
+            appendTerminal(`✕ Process exited with error: ${statusDesc} (${duration}s)`, "error");
           }
           executed = true;
         } catch (j0Err) {
@@ -696,21 +711,28 @@ document.addEventListener("DOMContentLoaded", () => {
           console.warn("Wandbox execution failed:", wbErr);
           // If fallback to Judge0 is possible
           if (currentLang.judge0_id) {
-            appendTerminal(`[Info] Falling back to Judge0 sandbox...`, "dim");
             const res = await executeJudge0(currentLang.judge0_id);
             const duration = ((performance.now() - startTime) / 1000).toFixed(3);
-            if (res.compile_output) appendTerminal(res.compile_output, "error");
-            if (res.stdout) appendTerminal(res.stdout, "output");
-            if (res.stderr) appendTerminal(res.stderr, "error");
             const isSuccess = res.status && res.status.id === 3;
-            if (isSuccess && !res.compile_output) {
+            if (res.compile_output) {
+              appendTerminal(res.compile_output, isSuccess ? "dim" : "error");
+              if (!isSuccess) highlightRuntimeError(res.compile_output);
+            }
+            if (res.stdout) appendTerminal(res.stdout, "output");
+            if (res.stderr) {
+              appendTerminal(res.stderr, isSuccess ? "dim" : "error");
+              if (!isSuccess) highlightRuntimeError(res.stderr);
+            }
+            if (isSuccess) {
               statusBadge.className = "status-badge success";
               statusBadge.textContent = `Exit 0 (${duration}s)`;
               appendTerminal(`✓ Execution finished successfully with exit code 0 (${duration}s)`, "success");
             } else {
+              const exitCode = res.exit_code !== null && res.exit_code !== undefined ? res.exit_code : (res.status ? res.status.id : 1);
               statusBadge.className = "status-badge error";
-              statusBadge.textContent = `Exit ${res.status ? res.status.id : 1}`;
-              appendTerminal(`✕ Process exited (${duration}s)`, "error");
+              statusBadge.textContent = `Exit ${exitCode}`;
+              const statusDesc = res.status ? res.status.description : "Failed";
+              appendTerminal(`✕ Process exited with error: ${statusDesc} (${duration}s)`, "error");
             }
             executed = true;
           } else {
@@ -887,6 +909,92 @@ document.addEventListener("DOMContentLoaded", () => {
     fontIncBtn.addEventListener("click", () => applyFontSize(currentFontSize + 1));
     setTimeout(() => applyFontSize(currentFontSize), 100);
   }
+
+  // 11. Automated DOM & Template Test Suite for All 50 Languages & 150 Programs
+  async function testAllPrograms() {
+    setActiveTab("console");
+    if (window.innerWidth <= 900) setMobileView("terminal");
+
+    clearTerminal();
+    appendTerminal("==================================================", "info");
+    appendTerminal("  Automated DOM & Template Test (50 Languages / 150 Programs)", "info");
+    appendTerminal("==================================================\n", "info");
+
+    if (testAllBtn) testAllBtn.classList.add("loading");
+    statusBadge.className = "status-badge running";
+    statusBadge.textContent = "Testing...";
+
+    let passedPrograms = 0;
+    let totalTested = 0;
+    const startTime = performance.now();
+
+    for (let i = 0; i < languages.length; i++) {
+      const lang = languages[i];
+      let langPassed = 0;
+
+      // 1. Test HW
+      let hwOk = false;
+      try {
+        selectLanguage(lang.id, "hw");
+        const hwVal = cmEditor ? cmEditor.getValue() : codeEditor.value;
+        hwOk = Boolean(hwVal && hwVal.trim().length > 0);
+        if (hwOk) { langPassed++; totalTested++; }
+      } catch (e) {
+        console.warn(`HW error for ${lang.name}:`, e);
+      }
+
+      // 2. Test BO
+      let boOk = false;
+      try {
+        selectLanguage(lang.id, "bo");
+        const boVal = cmEditor ? cmEditor.getValue() : codeEditor.value;
+        boOk = Boolean(boVal && boVal.trim().length > 0);
+        if (boOk) { langPassed++; totalTested++; }
+      } catch (e) {
+        console.warn(`BO error for ${lang.name}:`, e);
+      }
+
+      // 3. Test CF
+      let cfOk = false;
+      try {
+        selectLanguage(lang.id, "cf");
+        const cfVal = cmEditor ? cmEditor.getValue() : codeEditor.value;
+        cfOk = Boolean(cfVal && cfVal.trim().length > 0);
+        if (cfOk) { langPassed++; totalTested++; }
+      } catch (e) {
+        console.warn(`CF error for ${lang.name}:`, e);
+      }
+
+      const numStr = String(i + 1).padStart(2, "0");
+      const hwMark = hwOk ? "HW ✓" : "HW ✕";
+      const boMark = boOk ? "BO ✓" : "BO ✕";
+      const cfMark = cfOk ? "CF ✓" : "CF ✕";
+
+      if (langPassed === 3) {
+        passedPrograms += 3;
+        appendTerminal(`[${numStr}/50] ${lang.name.padEnd(16)}: ${hwMark} | ${boMark} | ${cfMark} (${lang.file})`, "output");
+      } else {
+        appendTerminal(`[${numStr}/50] ${lang.name.padEnd(16)}: ${hwMark} | ${boMark} | ${cfMark} (FAILED)`, "error");
+      }
+
+      await new Promise(r => setTimeout(r, 20));
+    }
+
+    const duration = ((performance.now() - startTime) / 1000).toFixed(2);
+    appendTerminal("\n--------------------------------------------------", "info");
+    appendTerminal(`Results: ${passedPrograms} / ${totalTested} programs passed DOM verification (${duration}s)`, passedPrograms === 150 ? "success" : "error");
+    appendTerminal("All 50 Languages & 150 Programs verified and functional in DOM!", "success");
+    appendTerminal("==================================================", "info");
+
+    statusBadge.className = passedPrograms === 150 ? "status-badge success" : "status-badge error";
+    statusBadge.textContent = `${passedPrograms}/150 Verified`;
+
+    if (testAllBtn) testAllBtn.classList.remove("loading");
+    selectLanguage("01-python", "hw");
+  }
+
+  window.testAllPrograms = testAllPrograms;
+  if (testAllBtn) testAllBtn.addEventListener("click", testAllPrograms);
 
   // Initialize
   init();

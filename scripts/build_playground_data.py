@@ -81,9 +81,12 @@ CONFIG = {
     "50-prolog":       {"engine": "judge0",  "judge0_id": 69}  # Prolog GNU Prolog 1.4.5
 }
 
+from generate_milestone3 import ALL_BATCHES
+
 playground_data = []
 for lang in LANGUAGES:
     cfg = CONFIG.get(lang["id"], {"engine": "local"})
+    cf = ALL_BATCHES.get(lang["id"], {})
     playground_data.append({
         "id": lang["id"],
         "name": lang["name"],
@@ -98,7 +101,10 @@ for lang in LANGUAGES:
         "install": lang["install"],
         "run_cmd": lang["hw_run"],
         "hw_code": lang["hw_code"],
-        "ops_code": lang["ops_code"]
+        "ops_code": lang["ops_code"],
+        "cf_code": cf.get("code", ""),
+        "cf_file": cf.get("file", ""),
+        "cf_output": cf.get("output", "")
     })
 
 playground_dir = os.path.join(os.path.dirname(__file__), "..", "playground")

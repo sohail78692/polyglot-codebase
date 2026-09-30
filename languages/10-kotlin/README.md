@@ -76,3 +76,79 @@ Modulo (a % b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: JetBrains Kotlin
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.kt`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```kt
+// ==========================================
+// Program: Control Flow in Kotlin
+// ==========================================
+
+fun main() {
+    // 1. Conditionals
+    println("Conditionals:")
+    val num = 15
+    if (num > 0) {
+        if (num % 2 == 0) {
+            println("$num is Positive and Even")
+        } else {
+            println("$num is Positive and Odd")
+        }
+    } else if (num < 0) {
+        println("$num is Negative")
+    } else {
+        println("Number is Zero")
+    }
+
+    println("\nPattern Matching / Switch:")
+    // 2. When Expression
+    val grade = "B"
+    val result = when (grade) {
+        "A" -> "Grade A: Excellent!"
+        "B" -> "Grade B: Good Job!"
+        "C" -> "Grade C: Fair"
+        else -> "Keep Trying!"
+    }
+    println(result)
+
+    // 3. For Loop with range 1..5
+    println("\nFor Loop (1 to 5):")
+    for (i in 1..5) {
+        print(if (i == 5) "$i\n" else "$i ")
+    }
+
+    // 4. While Loop
+    println("\nWhile Loop (Countdown):")
+    var count = 3
+    while (count > 0) {
+        print("$count ")
+        count--
+    }
+    println("Blastoff!")
+}
+```
+
+### Explanation
+Demonstrates Kotlin `if/else` expressions, powerful `when` branching, range-based `for (i in 1..5)`, and `while` loop.
+
+### Run Control Flow
+```bash
+kotlinc control_flow.kt -include-runtime -d control_flow.jar && java -jar control_flow.jar
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

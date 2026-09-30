@@ -72,3 +72,84 @@ Modulo (a % b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: julialang.org
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.jl`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```jl
+# ==========================================
+# Program: Control Flow in Julia
+# ==========================================
+
+function main()
+    # 1. Conditionals
+    println("Conditionals:")
+    num = 15
+    if num > 0
+        if num % 2 == 0
+            println("$num is Positive and Even")
+        else
+            println("$num is Positive and Odd")
+        end
+    elseif num < 0
+        println("$num is Negative")
+    else
+        println("Number is Zero")
+    end
+
+    println("\nPattern Matching / Switch:")
+    # 2. Branch matching
+    grade = "B"
+    msg = if grade == "A"
+        "Grade A: Excellent!"
+    elseif grade == "B"
+        "Grade B: Good Job!"
+    elseif grade == "C"
+        "Grade C: Fair"
+    else
+        "Keep Trying!"
+    end
+    println(msg)
+
+    # 3. For Loop
+    println("\nFor Loop (1 to 5):")
+    for i in 1:5
+        print(i, i == 5 ? "\n" : " ")
+    end
+
+    # 4. While Loop
+    println("\nWhile Loop (Countdown):")
+    count = 3
+    while count > 0
+        print(count, " ")
+        count -= 1
+    end
+    println("Blastoff!")
+end
+
+main()
+```
+
+### Explanation
+Demonstrates Julia `if/elseif/else` branching, multiple dispatch / conditional matching, range `for` loops, and `while` loop.
+
+### Run Control Flow
+```bash
+julia control_flow.jl
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

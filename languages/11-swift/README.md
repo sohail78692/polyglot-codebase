@@ -72,3 +72,86 @@ Modulo (a % b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: Xcode / swift.org
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.swift`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```swift
+// ==========================================
+// Program: Control Flow in Swift
+// ==========================================
+
+import Foundation
+
+func main() {
+    // 1. Conditionals
+    print("Conditionals:")
+    let num = 15
+    if num > 0 {
+        if num % 2 == 0 {
+            print("\(num) is Positive and Even")
+        } else {
+            print("\(num) is Positive and Odd")
+        }
+    } else if num < 0 {
+        print("\(num) is Negative")
+    } else {
+        print("Number is Zero")
+    }
+
+    print("\nPattern Matching / Switch:")
+    // 2. Switch
+    let grade = "B"
+    switch grade {
+    case "A":
+        print("Grade A: Excellent!")
+    case "B":
+        print("Grade B: Good Job!")
+    case "C":
+        print("Grade C: Fair")
+    default:
+        print("Keep Trying!")
+    }
+
+    // 3. For Loop with closed range
+    print("\nFor Loop (1 to 5):")
+    for i in 1...5 {
+        print(i, terminator: i == 5 ? "\n" : " ")
+    }
+
+    // 4. While Loop
+    print("\nWhile Loop (Countdown):")
+    var count = 3
+    while count > 0 {
+        print(count, terminator: " ")
+        count -= 1
+    }
+    print("Blastoff!")
+}
+
+main()
+```
+
+### Explanation
+Demonstrates Swift's modern `if/else`, pattern-matching `switch` with no implicit fallthrough, closed-range `for in 1...5`, and `while` loop.
+
+### Run Control Flow
+```bash
+swift control_flow.swift
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

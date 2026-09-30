@@ -78,3 +78,85 @@ Modulo (a %% b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: Built-in Windows
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.bat`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```bat
+@echo off
+setlocal enabledelayedexpansion
+
+:: ==========================================
+:: Program: Control Flow in Windows Batch
+:: ==========================================
+
+echo Conditionals:
+set num=15
+set /a rem=num %% 2
+if %num% GTR 0 (
+    if !rem! EQU 0 (
+        echo %num% is Positive and Even
+    ) else (
+        echo %num% is Positive and Odd
+    )
+) else (
+    echo %num% is Not Positive
+)
+
+echo.
+echo Pattern Matching / Switch:
+set grade=B
+if "%grade%"=="A" (
+    echo Grade A: Excellent!
+) else if "%grade%"=="B" (
+    echo Grade B: Good Job!
+) else (
+    echo Keep Trying!
+)
+
+echo.
+echo For Loop (1 to 5):
+set for_line=
+for /L %%i in (1,1,5) do (
+    set for_line=!for_line!%%i 
+)
+echo !for_line:~0,-1!
+
+echo.
+echo While Loop (Countdown):
+set count=3
+set while_line=
+:while_loop
+if !count! GTR 0 (
+    set while_line=!while_line!!count! 
+    set /a count=!count!-1
+    goto while_loop
+)
+echo !while_line!Blastoff!
+
+endlocal
+```
+
+### Explanation
+Demonstrates classic Windows Batch `IF / ELSE` logic, label jump pseudo-switch, `FOR /L` numeric loops, and `GOTO` countdown loop.
+
+### Run Control Flow
+```bash
+control_flow.bat
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

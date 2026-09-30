@@ -33,16 +33,17 @@ This project is structured in phased milestones to evolve into a premier polyglo
 
 ---
 
-## 🎯 Milestone 3: Control Flow & Logic (Up Next 🚀)
-- [ ] Implement `control_flow.<ext>` across all 50 languages.
-- [ ] Conditionals: `if / else`, ternary, pattern matching / `switch / match`.
-- [ ] Iteration: `for`, `while`, `do-while`, list comprehensions, and map/filter idioms.
-- [ ] Truthiness rules, short-circuit evaluation, and idiomatic early returns.
-- [ ] Add `Control Flow` template to the Interactive Web Playground.
+## 🎯 Milestone 3: Control Flow & Logic (Completed ✅)
+- [x] Implemented `control_flow.<ext>` across all 50 languages (150 total verified programs).
+- [x] Conditionals: `if / else`, ternary, pattern matching / `switch / match`.
+- [x] Iteration: `for`, `while`, `do-while`, list comprehensions, and functional loops.
+- [x] Truthiness rules, short-circuit evaluation, and idiomatic early returns.
+- [x] Added `Control Flow & Logic` template directly to the Interactive Web Playground.
+- [x] Verified repository structure via `scripts/verify_all.py` (150/150 passing).
 
 ---
 
-## 🎯 Milestone 4: Functions, Lambdas & Error Handling
+## 🎯 Milestone 4: Functions, Lambdas & Error Handling (Up Next 🚀)
 - [ ] Implement `functions.<ext>` across all 50 languages.
 - [ ] First-class functions, parameter passing, return values, and closures/lambdas.
 - [ ] Idiomatic error handling: `try / catch / finally`, `Result` / `Option` monads, multiple return values.

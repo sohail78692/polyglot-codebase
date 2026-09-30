@@ -84,3 +84,74 @@ add = 26, sub = 14, mul = 120, div = 3, mod = 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: `npm install -g solc`
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.sol`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```sol
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+// ==========================================
+// Program: Control Flow in Solidity
+// ==========================================
+
+contract ControlFlow {
+    // Demonstrates conditional logic within EVM functions
+    function checkNumber(int256 num) public pure returns (string memory) {
+        if (num > 0) {
+            if (num % 2 == 0) {
+                return "15 is Positive and Even";
+            } else {
+                return "15 is Positive and Odd";
+            }
+        } else if (num < 0) {
+            return "Number is Negative";
+        } else {
+            return "Number is Zero";
+        }
+    }
+
+    // Demonstrates loop accumulation
+    function sumRange(uint256 n) public pure returns (uint256) {
+        uint256 total = 0;
+        for (uint256 i = 1; i <= n; i++) {
+            total += i;
+        }
+        return total;
+    }
+
+    // Demonstrates while loop countdown
+    function countdown(uint256 count) public pure returns (uint256) {
+        uint256 remaining = count;
+        while (remaining > 0) {
+            remaining--;
+        }
+        return remaining;
+    }
+}
+```
+
+### Explanation
+Demonstrates Solidity EVM smart contract control flow: `if/else`, `for` loop, and `while` loop within a pure function.
+
+### Run Control Flow
+```bash
+solc --bin control_flow.sol
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching / Switch:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```

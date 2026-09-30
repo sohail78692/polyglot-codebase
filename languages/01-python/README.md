@@ -85,3 +85,79 @@ Modulo (a % b)          : 2
 ## 3. Prerequisites & Installation
 
 - **Guide**: python.org or `winget install Python.Python.3.12` / `brew install python` / `apt install python3`
+
+---
+
+## 3. Program 3: Control Flow & Logic (`control_flow.py`)
+*Demonstrates conditional branching (`if/else`), pattern matching / multi-way `switch`, `for` iteration loops, and `while` loop.*
+
+```py
+# ==========================================
+# Program: Control Flow in Python
+# ==========================================
+
+def main():
+    # 1. Conditionals (if / elif / else)
+    print("Conditionals:")
+    num = 15
+    if num > 0:
+        if num % 2 == 0:
+            print(f"{num} is Positive and Even")
+        else:
+            print(f"{num} is Positive and Odd")
+    elif num < 0:
+        print(f"{num} is Negative")
+    else:
+        print("Number is Zero")
+
+    print("\nPattern Matching:")
+    # 2. Structural Pattern Matching (Python 3.10+)
+    grade = "B"
+    match grade:
+        case "A":
+            print("Grade A: Excellent!")
+        case "B":
+            print("Grade B: Good Job!")
+        case "C":
+            print("Grade C: Fair")
+        case _:
+            print("Keep Trying!")
+
+    # 3. For Loop with range
+    print("\nFor Loop (1 to 5):")
+    for i in range(1, 6):
+        print(i, end=" " if i < 5 else "\n")
+
+    # 4. While Loop Countdown
+    print("\nWhile Loop (Countdown):")
+    count = 3
+    while count > 0:
+        print(count, end=" ")
+        count -= 1
+    print("Blastoff!")
+
+if __name__ == "__main__":
+    main()
+```
+
+### Explanation
+Demonstrates `if/elif/else` branching, Python 3.10+ structural pattern matching (`match/case`), `for` loop with `range()`, and `while` loop.
+
+### Run Control Flow
+```bash
+python control_flow.py
+```
+**Expected Output**:
+```text
+Conditionals:
+15 is Positive and Odd
+
+Pattern Matching:
+Grade B: Good Job!
+
+For Loop (1 to 5):
+1 2 3 4 5
+
+While Loop (Countdown):
+3 2 1 Blastoff!
+```
